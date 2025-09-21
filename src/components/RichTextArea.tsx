@@ -243,7 +243,7 @@ export const RichTextArea = ({
                 return (
                     <pre 
                         {...attributes} 
-                        className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md my-2 font-mono text-sm whitespace-pre-wrap"
+                        className="bg-gray-100 dark:bg-gray-900 p-4 rounded-md my-2 font-mono text-sm whitespace-pre-wrap"
                     >
                         {children}
                     </pre>
@@ -291,7 +291,7 @@ export const RichTextArea = ({
         }
 
         if (leaf.code) {
-            children = <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded font-mono text-sm">{children}</code>;
+            children = <code className="bg-gray-100 dark:bg-gray-900 px-1 rounded font-mono text-sm">{children}</code>;
         }
 
         return <span {...attributes}>{children}</span>;
@@ -365,7 +365,7 @@ export const RichTextArea = ({
                                     className="flex items-center gap-0.2"
                                 >
                                     <Bold />
-                                    <span className="bg-gray-100 dark:bg-gray-800">
+                                    <span className="bg-gray-100 dark:bg-gray-900">
                                         <ChevronDown />
                                     </span>
                                 </Button>
@@ -465,7 +465,7 @@ export const RichTextArea = ({
                                     className="flex items-center gap-0.2"
                                 >
                                     <List />
-                                    <span className="bg-gray-100 dark:bg-gray-800">
+                                    <span className="bg-gray-100 dark:bg-gray-900">
                                         <ChevronDown />
                                     </span>
                                 </Button>
@@ -522,7 +522,7 @@ export const RichTextArea = ({
                                     className="flex items-center gap-0.2"
                                 >
                                     <AlignLeft />
-                                    <span className="bg-gray-100 dark:bg-gray-800">
+                                    <span className="bg-gray-100 dark:bg-gray-900">
                                         <ChevronDown />
                                     </span>
                                 </Button>

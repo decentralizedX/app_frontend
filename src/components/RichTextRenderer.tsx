@@ -24,7 +24,7 @@ const renderElement = (props: any) => {
       return (
         <pre 
           {...attributes} 
-          className="bg-gray-100 dark:bg-gray-800 p-4 rounded-md my-2 font-mono text-sm overflow-x-auto"
+          className="bg-gray-100 dark:bg-gray-900 p-4 rounded-md my-2 font-mono text-sm overflow-x-auto"
         >
           {children}
         </pre>
@@ -73,7 +73,7 @@ const renderLeaf = (props: any) => {
   }
 
   if (leaf.code) {
-    children = <code className="bg-gray-100 dark:bg-gray-800 px-1 rounded font-mono text-sm">{children}</code>;
+    children = <code className="bg-gray-100 dark:bg-gray-900 px-1 rounded font-mono text-sm">{children}</code>;
   }
 
   return <span {...attributes}>{children}</span>;

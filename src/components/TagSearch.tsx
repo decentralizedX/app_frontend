@@ -2,20 +2,22 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Hash, X, Search, Loader2 } from "lucide-react";
+import { Hash, X, Loader2 } from "lucide-react";
 
 interface TagSearchProps {
   onTagSearch: (tags: string[]) => void;
   isLoading?: boolean;
   placeholder?: string;
   className?: string;
+  showAddButton?: boolean;
 }
 
 export const TagSearch = ({ 
   onTagSearch, 
   isLoading = false, 
   placeholder = "Enter tags and press Enter...",
-  className = ""
+  className = "",
+  showAddButton = true
 }: TagSearchProps) => {
   const [tagInput, setTagInput] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -43,11 +45,6 @@ export const TagSearch = ({
     }
   };
 
-  const handleClearAll = () => {
-    setSelectedTags([]);
-    setTagInput("");
-    onTagSearch([]);
-  };
 
   return (
     <div className={`space-y-3 ${className}`}>
@@ -66,43 +63,27 @@ export const TagSearch = ({
           />
         </div>
         
-        {/* Search Button with theme contrast */}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => tagInput.trim() && handleAddTag(tagInput)}
-          disabled={!tagInput.trim() || isLoading}
-          className="flex items-center gap-2 bg-foreground text-background hover:bg-foreground/90 border-foreground disabled:bg-muted disabled:text-muted-foreground disabled:border-muted"
-        >
-          {isLoading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <Search className="h-4 w-4" />
-          )}
-          Add
-        </Button>
-
-        {/* Clear All Button */}
-        {selectedTags.length > 0 && (
+        {/* Add Button with theme contrast - conditionally rendered */}
+        {showAddButton && (
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
-            onClick={handleClearAll}
-            disabled={isLoading}
-            className="flex items-center gap-2"
+            onClick={() => tagInput.trim() && handleAddTag(tagInput)}
+            disabled={!tagInput.trim() || isLoading}
+            className="flex items-center gap-2 bg-foreground text-background hover:bg-foreground/90 border-foreground disabled:bg-muted disabled:text-muted-foreground disabled:border-muted"
           >
-            <X className="h-4 w-4" />
-            Clear All
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : null}
+            Add
           </Button>
         )}
+
       </div>
 
       {/* Selected Tags Display */}
       {selectedTags.length > 0 && (
         <div className="space-y-2">
-          <div className="text-sm text-muted-foreground">
-            Searching for {selectedTags.length} tag{selectedTags.length > 1 ? 's' : ''}:
-          </div>
           <div className="flex flex-wrap gap-2">
             {selectedTags.map((tag) => (
               <Badge

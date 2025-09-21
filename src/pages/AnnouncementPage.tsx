@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
 import { PostCard } from "@/components/PostCard";
 import { TagSearch } from "@/components/TagSearch";
 import { Button } from "@/components/ui/button";
@@ -93,9 +92,7 @@ export const AnnouncementPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-6 max-w-7xl">
+    <div className="px-4 sm:px-6 py-6 lg:px-8 max-w-7xl mx-auto w-full">
         <div className="mb-6">
           <div className="flex items-center gap-3 mb-2">
             <Megaphone className="h-8 w-8" />
@@ -235,7 +232,6 @@ export const AnnouncementPage = () => {
             <p className="text-muted-foreground">Official announcements will appear here when available</p>
           </div>
         )}
-      </main>
     </div>
   );
 };

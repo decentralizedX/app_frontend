@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Navbar from "@/components/Navbar";
 import { CommentForm } from "@/components/CommentForm";
 import { Post, Comment } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -224,9 +223,7 @@ export const PostInfoPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-2 md:py-6 max-w-7xl">
+    <div className="px-4 sm:px-6 py-6 lg:px-8 max-w-7xl mx-auto w-full">
         {isLoading ? (
           <div className="flex justify-center items-center py-4 md:py-8">
             <div className="w-full space-y-4">
@@ -343,7 +340,6 @@ export const PostInfoPage = () => {
             <p className="text-muted-foreground">Post not found</p>
           </div>
         )}
-      </main>
     </div>
   );
 };

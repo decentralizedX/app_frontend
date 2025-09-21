@@ -1,0 +1,1184 @@
+/* EditorJS Notion-like styles */
+/* Show block tools but hide unwanted toolbars */
+.ce-toolbar__content::before,
+.ce-toolbar__content::after {
+  display: none !important;
+}
+
+/* Ensure popover and command menu are visible */
+.ce-popover,
+.ce-popover--opened,
+.ce-conversion-toolbar,
+.ce-inline-toolbar {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Style block tools (plus icon and drag handle) */
+.ce-block__plus,
+.ce-block__drag {
+  display: flex !important;
+  align-items: center !important;
+  opacity: 0 !important;
+  transition: opacity 0.2s !important;
+  color: #9CA3AF !important;
+  cursor: pointer !important;
+}
+
+.ce-block:hover .ce-block__plus,
+.ce-block:hover .ce-block__drag {
+  opacity: 1 !important;
+}
+
+.ce-block__plus:hover,
+.ce-block__drag:hover {
+  color: #6B7280 !important;
+}
+
+.ce-toolbar__content,
+.ce-block__content {
+  max-width: 100% !important;
+}
+
+.ce-block {
+  padding: 6px 0 !important;
+}
+
+.ce-paragraph {
+  line-height: 1.6 !important;
+  font-size: 16px !important;
+  color: rgb(55, 53, 47) !important;
+}
+
+.ce-header {
+  font-weight: 600 !important;
+  font-size: 1.6em !important;
+  margin-top: 0.6em !important;
+  margin-bottom: 4px !important;
+}
+
+.ce-header[data-level="1"] {
+  line-height: 1.6 !important;
+}
+
+.ce-header[data-level="2"] {
+  line-height: 1.6 !important;
+}
+
+.ce-header[data-level="3"] {
+  line-height: 1.6 !important;
+}
+
+.ce-list {
+  margin: 0 !important;
+  padding-left: 1.5em !important;
+}
+
+.ce-list__item {
+  line-height: 1.6 !important;
+  margin: 2px 0 !important;
+}
+
+.ce-quote {
+  border-left: 3px solid #e1e1e1 !important;
+  margin: 20px 0 !important;
+  padding-left: 14px !important;
+  padding-bottom: 0 !important;
+  border-top: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+}
+
+/* Remove borders from quote block containers and minimize spacing */
+.ce-block[data-tool="quote"],
+.ce-block[data-tool="quote"] .ce-block__content,
+.cdx-block.cdx-quote {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Ensure quote container has minimal height and spacing */
+.cdx-block.cdx-quote {
+  min-height: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+  line-height: 1.6 !important;
+}
+
+/* Aggressive spacing removal for quote elements */
+.cdx-block.cdx-quote > *,
+.cdx-block.cdx-quote .cdx-input {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Fix block selection styling for quotes */
+.ce-block[data-tool="quote"].ce-block--selected,
+.ce-block[data-tool="quote"].ce-block--selected .ce-block__content {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Prevent extra spacing in quote blocks */
+.ce-quote > *:last-child,
+.ce-block[data-tool="quote"] > * > *:last-child {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.ce-quote__text {
+  font-size: 1.1em !important;
+  line-height: 1.6 !important;
+  font-style: italic !important;
+  color: rgb(55, 53, 47) !important;
+  border: none !important;
+  border-top: none !important;
+  outline: none !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Ensure no borders on any cdx-input elements in quotes */
+.cdx-block.cdx-quote .cdx-input {
+  border: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Target the exact quote text element to remove spacing */
+.cdx-input.cdx-quote__text,
+.cdx-quote__text {
+  margin: 0 !important;
+  padding: 0 !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  line-height: 1.6 !important;
+  display: block !important;
+  min-height: auto !important;
+}
+
+.ce-code {
+  background: #f7f6f3 !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 6px !important;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+  padding: 12px !important;
+  margin: 10px 0 !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.ce-code__textarea {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  color: rgb(55, 53, 47) !important;
+  resize: none !important;
+  height: auto !important;
+  min-height: 60px !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+}
+
+/* Force auto-resize behavior - target exact elements */
+.cdx-block.ce-code .ce-code__textarea.cdx-input,
+.ce-code__textarea.cdx-input,
+.cdx-block.ce-code textarea,
+.ce-code textarea {
+  height: auto !important;
+  min-height: 60px !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+  resize: none !important;
+}
+
+.ce-table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  margin: 20px 0 !important;
+}
+
+.ce-table__cell {
+  border: 1px solid #e1e1e1 !important;
+  padding: 8px 12px !important;
+  min-height: 32px !important;
+  position: relative !important;
+}
+
+.ce-table__cell input {
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+  width: 100% !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+.ce-delimiter {
+  margin: 30px 0 !important;
+  text-align: center !important;
+}
+
+.ce-delimiter::before {
+  content: "* * *" !important;
+  font-size: 18px !important;
+  color: #ccc !important;
+  letter-spacing: 8px !important;
+}
+
+.ce-toolbar {
+  background: white !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ce-toolbar__button {
+  border-radius: 6px !important;
+  transition: background-color 0.2s !important;
+}
+
+.ce-toolbar__button:hover {
+  background: #f1f1ef !important;
+}
+
+.ce-inline-toolbar {
+  background: white !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ce-inline-tool {
+  border-radius: 6px !important;
+  transition: background-color 0.2s !important;
+}
+
+.ce-inline-tool:hover {
+  background: #f1f1ef !important;
+}
+
+.ce-popover {
+  background: white !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ce-popover__item {
+  border-radius: 6px !important;
+  transition: background-color 0.2s !important;
+}
+
+.ce-popover__item:hover {
+  background: #f1f1ef !important;
+}
+
+/* Block selection */
+.ce-block--selected .ce-block__content {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Specifically handle quote block selection */
+.ce-block--selected[data-tool="quote"] .ce-block__content,
+.ce-block--selected[data-tool="quote"] .cdx-block.cdx-quote,
+.ce-block--selected[data-tool="quote"] .ce-quote {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Placeholder styling */
+.ce-paragraph[data-placeholder]:empty::before,
+.ce-header[data-placeholder]:empty::before {
+  color: #a8a8a8 !important;
+  font-weight: normal !important;
+}
+
+/* Link styling */
+.ce-link-tool__content {
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
+  margin: 10px 0 !important;
+  background: #fafafa !important;
+}
+
+.ce-link-tool__image {
+  border-radius: 6px !important;
+}
+
+.ce-link-tool__title {
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  line-height: 1.4 !important;
+}
+
+.ce-link-tool__description {
+  color: #666 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+/* Image styling with resize handles */
+.ce-image {
+  text-align: center !important;
+  margin: 20px 0 !important;
+  position: relative !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.ce-image__image {
+  border-radius: 8px !important;
+  max-width: 100% !important;
+  height: auto !important;
+  position: relative !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+/* Force center alignment for all image blocks */
+.ce-block[data-tool="image"],
+.ce-block .ce-image,
+.image-tool,
+[data-tool="image"] {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+/* Center any image regardless of container */
+.ce-block img {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
+}
+
+.ce-image__caption {
+  color: #666 !important;
+  font-size: 14px !important;
+  text-align: center !important;
+  margin-top: 0px !important;
+  font-style: italic !important;
+}
+
+/* Remove spacing from images and their containers */
+.ce-image__image,
+.image-tool__image img,
+.image-tool__image-picture img,
+.ce-block[data-tool="image"] img {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.image-tool__image,
+.image-tool__image-picture,
+.ce-image,
+.ce-block[data-tool="image"] .ce-block__content {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* EditorJS image caption - reduce spacing */
+.cdx-input.image-tool__caption,
+.cdx-input.image-tool__caption::before {
+  text-align: center !important;
+  color: #666 !important;
+  font-size: 14px !important;
+  font-style: italic !important;
+  margin-top: -2px !important;
+  padding-top: 0 !important;
+  border: none !important;
+  outline: none !important;
+  background: transparent !important;
+}
+
+.cdx-input.image-tool__caption[data-empty="true"]::before {
+  text-align: center !important;
+  color: #999 !important;
+  display: block !important;
+  width: 100% !important;
+}
+
+/* Hide placeholder immediately when focused */
+.cdx-input.image-tool__caption:focus::before,
+.cdx-input.image-tool__caption:focus-within::before {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Quote caption (author) styling - target exact classes */
+.cdx-input.cdx-quote__caption,
+.cdx-input.cdx-quote__caption[data-placeholder*="author" i],
+.cdx-input[data-placeholder*="author" i],
+.cdx-input[data-placeholder="Quote's author"] {
+  text-align: right !important;
+  color: #666 !important;
+  font-size: 14px !important;
+  font-style: italic !important;
+  margin: 8px 0 0 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  outline: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  display: block !important;
+  line-height: 1.4 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Remove any pseudo-elements that might create lines */
+.cdx-input.cdx-quote__caption::after,
+.cdx-input.cdx-quote__caption::before,
+.cdx-input.cdx-quote__text::after,
+.cdx-input.cdx-quote__text::before {
+  border: none !important;
+  border-top: none !important;
+}
+
+/* Force spacing on all states */
+.cdx-input.cdx-quote__caption:focus,
+.cdx-input.cdx-quote__caption:blur,
+.cdx-input.cdx-quote__caption:active,
+.cdx-input.cdx-quote__caption[data-empty="true"],
+.cdx-input.cdx-quote__caption[data-empty="false"] {
+  margin: 8px 0 0 0 !important;
+  padding: 0 !important;
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* Only apply overflow protection when there's actual content */
+.ce-quote__caption:not(:empty),
+.cdx-input.quote-tool__caption:not(:empty),
+input[placeholder*="author" i]:not(:placeholder-shown),
+input[placeholder*="Author"]:not(:placeholder-shown) {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+/* Ensure consistent spacing regardless of focus state */
+.ce-quote__caption:focus,
+.cdx-quote__caption:focus,
+.quote-tool__caption:focus,
+.cdx-input.quote-tool__caption:focus,
+input[placeholder*="author" i]:focus,
+input[placeholder*="Author"]:focus,
+textarea[placeholder*="author" i]:focus,
+textarea[placeholder*="Author"]:focus,
+.ce-quote input:focus,
+.ce-quote textarea:focus,
+.ce-quote [contenteditable="true"]:focus,
+.ce-block[data-tool="quote"] input:focus,
+.ce-block[data-tool="quote"] textarea:focus,
+.ce-block[data-tool="quote"] [contenteditable="true"]:focus {
+  margin-top: -2px !important;
+  padding-top: 0 !important;
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+/* Quote caption placeholder styling - target exact element */
+.cdx-input.cdx-quote__caption[data-empty="true"]::before,
+.cdx-input[data-placeholder="Quote's author"][data-empty="true"]::before {
+  content: attr(data-placeholder) !important;
+  text-align: right !important;
+  color: #999 !important;
+  font-style: italic !important;
+  display: block !important;
+  width: 100% !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  position: relative !important;
+  pointer-events: none !important;
+}
+
+/* Hide quote caption placeholder on focus */
+.cdx-input.cdx-quote__caption:focus::before,
+.cdx-input[data-placeholder="Quote's author"]:focus::before {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Image resize handles - highly visible */
+.resize-handle {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  width: 8px !important;
+  height: 100px !important;
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%) !important;
+  border: 2px solid #ffffff !important;
+  border-radius: 4px !important;
+  cursor: ew-resize !important;
+  opacity: 0 !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  z-index: 10000 !important;
+  pointer-events: auto !important;
+  display: block !important;
+  visibility: visible !important;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.5), 0 2px 8px rgba(0,0,0,0.3) !important;
+}
+
+.resize-handle.left {
+  left: 2px !important;
+}
+
+.resize-handle.right {
+  right: 2px !important;
+}
+
+/* Multiple selectors for better targeting */
+.ce-image:hover .resize-handle,
+.ce-block:hover .resize-handle,
+.image-tool:hover .resize-handle,
+[data-tool="image"]:hover .resize-handle,
+.image-resize-wrapper:hover .resize-handle {
+  opacity: 1 !important;
+  animation: slideIn 0.3s ease-out !important;
+}
+
+/* Slide-in animation for handles */
+@keyframes slideIn {
+  0% {
+    opacity: 0 !important;
+    transform: translateY(-50%) scale(0.8) !important;
+  }
+  100% {
+    opacity: 1 !important;
+    transform: translateY(-50%) scale(1) !important;
+  }
+}
+
+.resize-handle:hover {
+  background: linear-gradient(180deg, #2563eb 0%, #1e40af 100%) !important;
+  width: 10px !important;
+  height: 120px !important;
+  border-color: #ffffff !important;
+  border-width: 3px !important;
+  box-shadow: 0 6px 30px rgba(59, 130, 246, 0.8), 0 4px 16px rgba(0,0,0,0.4) !important;
+  transform: translateY(-50%) scale(1.1) !important;
+  animation: pulse-glow 2s infinite !important;
+}
+
+/* Pulse animation for handle hover */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 6px 30px rgba(59, 130, 246, 0.8), 0 4px 16px rgba(0,0,0,0.4) !important;
+  }
+  50% {
+    box-shadow: 0 8px 40px rgba(59, 130, 246, 1), 0 6px 20px rgba(0,0,0,0.5) !important;
+  }
+}
+
+/* Image wrapper for better resize control */
+.image-resize-wrapper {
+  display: inline-block !important;
+  position: relative !important;
+  margin: 0 auto !important;
+  max-width: 100% !important;
+}
+
+.image-resize-wrapper img {
+  display: block !important;
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 8px !important;
+}
+
+.image-resize-wrapper:hover .resize-handle {
+  opacity: 1 !important;
+}
+
+/* Custom focus states */
+.ce-block__content:focus-within {
+  background: transparent !important;
+}
+
+/* Typography improvements */
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  font-weight: 600 !important;
+  color: rgb(55, 53, 47) !important;
+}
+
+.prose p {
+  color: rgb(55, 53, 47) !important;
+  line-height: 1.6 !important;
+}
+
+.prose ul, .prose ol {
+  color: rgb(55, 53, 47) !important;
+}
+
+.prose li {
+  margin: 0.25em 0 !important;
+}
+
+.prose code {
+  background: rgba(135, 131, 120, 0.15) !important;
+  color: #eb5757 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  font-size: 0.9em !important;
+}
+
+.prose blockquote {
+  border-left: 3px solid #e1e1e1 !important;
+  margin: 20px 0 !important;
+  padding-left: 14px !important;
+  font-style: italic !important;
+  color: rgb(55, 53, 47) !important;
+}
+
+/* Dark mode support */
+.dark .ce-paragraph,
+.dark .ce-header,
+.dark .ce-quote__text,
+.dark .ce-code__textarea,
+.dark .prose h1, .dark .prose h2, .dark .prose h3, 
+.dark .prose h4, .dark .prose h5, .dark .prose h6,
+.dark .prose p,
+.dark .prose ul, .dark .prose ol,
+.dark .prose blockquote {
+  color: rgb(255, 255, 255) !important;
+}
+
+.dark .ce-code {
+  background: rgb(37, 37, 37) !important;
+  border: 1px solid rgb(55, 55, 55) !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.dark .ce-toolbar,
+.dark .ce-inline-toolbar,
+.dark .ce-popover {
+  background: rgb(32, 32, 32) !important;
+  border: 1px solid rgb(55, 55, 55) !important;
+}
+
+.dark .ce-toolbar__button:hover,
+.dark .ce-inline-tool:hover,
+.dark .ce-popover__item:hover {
+  background: rgb(55, 55, 55) !important;
+}
+
+.dark .ce-table__cell {
+  border: 1px solid rgb(55, 55, 55) !important;
+  background: rgb(25, 25, 25) !important;
+}
+
+.dark .ce-link-tool__content {
+  background: rgb(37, 37, 37) !important;
+  border: 1px solid rgb(55, 55, 55) !important;
+}
+
+.dark .ce-link-tool__description {
+  color: rgb(155, 155, 155) !important;
+}
+
+.dark .ce-image__caption {
+  color: rgb(155, 155, 155) !important;
+}
+
+/* Dark mode for quote caption */
+.dark .ce-quote__caption,
+.dark .cdx-input.quote-tool__caption,
+.dark input[placeholder*="author" i],
+.dark input[placeholder*="Author"],
+.dark [data-placeholder*="author" i],
+.dark [data-placeholder*="Author"],
+.dark [contenteditable="true"][data-placeholder*="author" i] {
+  color: rgb(155, 155, 155) !important;
+}
+
+.dark .ce-quote__caption::placeholder,
+.dark .cdx-input.quote-tool__caption::placeholder,
+.dark input[placeholder*="author" i]::placeholder,
+.dark input[placeholder*="Author"]::placeholder,
+.dark [data-placeholder*="author" i]::before,
+.dark [data-placeholder*="Author"]::before {
+  color: rgb(120, 120, 120) !important;
+  text-align: right !important;
+}
+
+.dark .prose code {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ff6b6b !important;
+}
+
+/* Preview Mode Styles */
+.preview-container {
+  color: rgb(55, 53, 47) !important;
+  line-height: 1.6 !important;
+  font-size: 16px !important;
+  padding-bottom: 100px !important;
+  max-width: none !important;
+  width: 100% !important;
+}
+
+.preview-container > * {
+  margin-bottom: 16px !important;
+  margin-top: 0 !important;
+}
+
+.preview-container > *:first-child {
+  margin-top: 0 !important;
+}
+
+.preview-container > *:last-child {
+  margin-bottom: 0 !important;
+}
+
+.preview-header-1,
+.preview-header-2,
+.preview-header-3,
+.preview-header-4,
+.preview-header-5,
+.preview-header-6 {
+  font-weight: 600 !important;
+  color: rgb(55, 53, 47) !important;
+  margin: 0.6em 0 4px 0 !important;
+}
+
+.preview-header-1 {
+  font-size: 2em !important;
+  line-height: 1.6 !important;
+}
+
+.preview-header-2 {
+  font-size: 1.6em !important;
+  line-height: 1.6 !important;
+}
+
+.preview-header-3 {
+  font-size: 1.4em !important;
+  line-height: 1.6 !important;
+}
+
+.preview-header-4 {
+  font-size: 1.2em !important;
+  line-height: 1.6 !important;
+}
+
+.preview-header-5 {
+  font-size: 1.1em !important;
+  line-height: 1.6 !important;
+}
+
+.preview-header-6 {
+  font-size: 1em !important;
+  line-height: 1.6 !important;
+  font-weight: 700 !important;
+}
+
+.preview-paragraph {
+  line-height: 1.6 !important;
+  font-size: 16px !important;
+  color: rgb(55, 53, 47) !important;
+  margin: 6px 0 !important;
+}
+
+.preview-list {
+  margin: 0 !important;
+  padding-left: 1.5em !important;
+}
+
+.preview-list li {
+  line-height: 1.6 !important;
+  margin: 2px 0 !important;
+  color: rgb(55, 53, 47) !important;
+}
+
+.preview-quote {
+  border-left: 3px solid #e1e1e1 !important;
+  margin: 20px 0 !important;
+  padding-left: 14px !important;
+  background: transparent !important;
+  border-top: none !important;
+  border-right: none !important;
+  border-bottom: none !important;
+}
+
+.preview-quote .quote-text {
+  font-size: 1.1em !important;
+  line-height: 1.6 !important;
+  font-style: italic !important;
+  color: rgb(55, 53, 47) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.preview-quote .quote-caption {
+  text-align: right !important;
+  color: #666 !important;
+  font-size: 14px !important;
+  font-style: italic !important;
+  margin: 8px 0 0 0 !important;
+  padding: 0 !important;
+  display: block !important;
+  width: 100% !important;
+}
+
+.preview-code {
+  background: #f7f6f3 !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 6px !important;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+  padding: 12px !important;
+  margin: 10px 0 !important;
+  overflow-x: auto !important;
+}
+
+.preview-code code {
+  background: transparent !important;
+  border: none !important;
+  font-family: inherit !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  color: rgb(55, 53, 47) !important;
+  padding: 0 !important;
+}
+
+.preview-delimiter {
+  margin: 30px 0 !important;
+  text-align: center !important;
+}
+
+.preview-delimiter span {
+  font-size: 18px !important;
+  color: #ccc !important;
+  letter-spacing: 8px !important;
+}
+
+.preview-image {
+  text-align: center !important;
+  margin: 20px 0 !important;
+  display: block !important;
+}
+
+.preview-image-img {
+  border-radius: 8px !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+/* Override max-width when custom dimensions are applied */
+.preview-image-img[style*="width"] {
+  max-width: none !important;
+}
+
+.preview-image-caption {
+  color: #666 !important;
+  font-size: 14px !important;
+  text-align: center !important;
+  margin-top: 8px !important;
+  font-style: italic !important;
+}
+
+.preview-table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  margin: 20px 0 !important;
+}
+
+.preview-table td {
+  border: 1px solid #e1e1e1 !important;
+  padding: 8px 12px !important;
+  color: rgb(55, 53, 47) !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+}
+
+.preview-link {
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 8px !important;
+  padding: 12px !important;
+  margin: 10px 0 !important;
+  background: #fafafa !important;
+  display: block !important;
+}
+
+.preview-link a {
+  text-decoration: none !important;
+  color: inherit !important;
+  display: flex !important;
+  gap: 12px !important;
+  align-items: flex-start !important;
+}
+
+.preview-link .link-image {
+  width: 80px !important;
+  height: 80px !important;
+  object-fit: cover !important;
+  border-radius: 6px !important;
+  flex-shrink: 0 !important;
+}
+
+.preview-link .link-content {
+  flex: 1 !important;
+}
+
+.preview-link .link-title {
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  line-height: 1.4 !important;
+  color: rgb(55, 53, 47) !important;
+  margin-bottom: 4px !important;
+}
+
+.preview-link .link-description {
+  color: #666 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  margin-bottom: 4px !important;
+}
+
+.preview-link .link-url {
+  color: #999 !important;
+  font-size: 12px !important;
+  text-decoration: underline !important;
+}
+
+.preview-unknown {
+  background: #f9f9f9 !important;
+  border: 1px dashed #ccc !important;
+  padding: 12px !important;
+  margin: 10px 0 !important;
+  border-radius: 4px !important;
+  color: #666 !important;
+  font-style: italic !important;
+}
+
+/* Dark mode for preview */
+.dark .preview-container {
+  color: rgb(255, 255, 255) !important;
+}
+
+.dark .preview-header-1,
+.dark .preview-header-2,
+.dark .preview-header-3,
+.dark .preview-header-4,
+.dark .preview-header-5,
+.dark .preview-header-6 {
+  color: rgb(255, 255, 255) !important;
+}
+
+.dark .preview-paragraph {
+  color: rgb(255, 255, 255) !important;
+}
+
+.dark .preview-list li {
+  color: rgb(255, 255, 255) !important;
+}
+
+.dark .preview-quote {
+  border-left: 3px solid rgb(55, 55, 55) !important;
+}
+
+.dark .preview-quote .quote-text {
+  color: rgb(255, 255, 255) !important;
+}
+
+.dark .preview-quote .quote-caption {
+  color: rgb(155, 155, 155) !important;
+}
+
+.dark .preview-code {
+  background: rgb(37, 37, 37) !important;
+  border: 1px solid rgb(55, 55, 55) !important;
+}
+
+.dark .preview-code code {
+  color: rgb(255, 255, 255) !important;
+}
+
+.dark .preview-delimiter span {
+  color: rgb(100, 100, 100) !important;
+}
+
+.dark .preview-image-caption {
+  color: rgb(155, 155, 155) !important;
+}
+
+.dark .preview-table td {
+  border: 1px solid rgb(55, 55, 55) !important;
+  background: rgb(25, 25, 25) !important;
+  color: rgb(255, 255, 255) !important;
+}
+
+.dark .preview-link {
+  background: rgb(37, 37, 37) !important;
+  border: 1px solid rgb(55, 55, 55) !important;
+}
+
+.dark .preview-link .link-title {
+  color: rgb(255, 255, 255) !important;
+}
+
+.dark .preview-link .link-description {
+  color: rgb(155, 155, 155) !important;
+}
+
+.dark .preview-link .link-url {
+  color: rgb(120, 120, 120) !important;
+}
+
+.dark .preview-unknown {
+  background: rgb(37, 37, 37) !important;
+  border: 1px dashed rgb(100, 100, 100) !important;
+  color: rgb(155, 155, 155) !important;
+}
+
+/* Tab Navigation Styles */
+.tab-nav {
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 24px;
+}
+
+.dark .tab-nav {
+  border-bottom: 1px solid #374151;
+}
+
+.tab-button {
+  position: relative;
+  padding: 12px 4px;
+  margin-right: 32px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+
+.tab-button:focus {
+  outline: none;
+}
+
+.tab-button.active {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+}
+
+.dark .tab-button.active {
+  color: #60a5fa;
+  border-bottom-color: #60a5fa;
+}
+
+.tab-button:not(.active) {
+  color: #6b7280;
+}
+
+.dark .tab-button:not(.active) {
+  color: #9ca3af;
+}
+
+.tab-button:not(.active):hover {
+  color: #374151;
+  border-bottom-color: #d1d5db;
+}
+
+.dark .tab-button:not(.active):hover {
+  color: #d1d5db;
+  border-bottom-color: #4b5563;
+}
+
+/* Enhanced focus states for tabs */
+.tab-button:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.dark .tab-button:focus-visible {
+  outline: 2px solid #60a5fa;
+}
+
+/* Tab content area */
+.tab-content {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hide editor completely when in preview mode */
+.preview-mode .ce-toolbar,
+.preview-mode .ce-block,
+.preview-mode .ce-popover,
+.preview-mode .ce-inline-toolbar,
+.preview-mode .ce-conversion-toolbar,
+.preview-mode #editorjs,
+.preview-mode [data-tool],
+.preview-mode .codex-editor,
+.preview-mode .ce-redactor {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure preview container is fully visible when active */
+.preview-mode .preview-container {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}

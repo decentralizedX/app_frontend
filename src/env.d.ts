@@ -12,4 +12,23 @@ interface ImportMetaEnv {
 
 interface ImportMeta {
   readonly env: ImportMetaEnv
+}
+
+// MetaMask Ethereum types
+interface EthereumRequest {
+  method: string;
+  params?: any[];
+}
+
+interface Ethereum {
+  request: (args: EthereumRequest) => Promise<any>;
+  isMetaMask?: boolean;
+  on?: (event: string, callback: (...args: any[]) => void) => void;
+  removeListener?: (event: string, callback: (...args: any[]) => void) => void;
+}
+
+declare global {
+  interface Window {
+    ethereum?: Ethereum;
+  }
 } 
