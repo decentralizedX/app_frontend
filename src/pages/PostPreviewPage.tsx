@@ -5,7 +5,6 @@ import { Loader2, User, FileImage, Lock, Eye, ExternalLink, Users, Copy, Check, 
 import EditorTextParser from "@/components/editor/EditorTextParser";
 import { fetchFileContentByAssetAddress, useAssetCidByAddress, useAssetData, useBuyAsset } from "@/services/dXService";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/sonner";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import "@/components/editor/Editor.css";
@@ -162,7 +161,6 @@ export const PostPreviewPage = () => {
     if (assetAddress) {
       await navigator.clipboard.writeText(assetAddress);
       setCopiedAsset(true);
-      toast.success("Asset address copied!");
       setTimeout(() => setCopiedAsset(false), 2000);
     }
   };
@@ -171,7 +169,6 @@ export const PostPreviewPage = () => {
     if (assetData?.author) {
       await navigator.clipboard.writeText(assetData.author);
       setCopiedAuthor(true);
-      toast.success("Author address copied!");
       setTimeout(() => setCopiedAuthor(false), 2000);
     }
   };
@@ -180,7 +177,6 @@ export const PostPreviewPage = () => {
     if (assetCid) {
       await navigator.clipboard.writeText(assetCid);
       setCopiedCid(true);
-      toast.success("Content CID copied!");
       setTimeout(() => setCopiedCid(false), 2000);
     }
   };
@@ -200,7 +196,6 @@ export const PostPreviewPage = () => {
       setIsPurchaseDialogOpen(false);
     } catch (error) {
       console.error('Error subscribing to asset:', error);
-      toast.error("Failed to subscribe to content");
       setIsTransactionPending(false);
     }
   };
@@ -208,7 +203,6 @@ export const PostPreviewPage = () => {
   // Handle transaction confirmation
   useEffect(() => {
     if (isBuyConfirmed) {
-      toast.success("Subscription successful! You now have access to this content.");
       setIsTransactionPending(false);
       // Reload the page to show the content
       setTimeout(() => {
@@ -220,7 +214,6 @@ export const PostPreviewPage = () => {
   // Handle transaction error
   useEffect(() => {
     if (isBuyError) {
-      toast.error("Transaction failed. Please try again.");
       setIsTransactionPending(false);
     }
   }, [isBuyError]);

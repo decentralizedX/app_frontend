@@ -6,7 +6,6 @@ import { FileImage, ShoppingCart, Loader2, Eye, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useBuyAsset, getAssetCost, fetchFileContentByAssetAddress } from "@/services/dXService";
 import { useAccount, useReadContract } from "wagmi";
-import { toast } from "@/components/ui/sonner";
 import { useState, useEffect } from "react";
 import { useAssetOwnership } from "@/hooks/useAssetOwnership";
 import { dXassetContract } from "@/contracts/dXasset";
@@ -54,7 +53,6 @@ export const HomeCard = ({ asset }: HomeCardProps) => {
   useEffect(() => {
     if (isConfirmed && isBuying) {
       setIsBuying(false);
-      toast.success("Asset purchased successfully!");
       setIsDialogOpen(false);
     }
   }, [isConfirmed, isBuying]);
@@ -63,7 +61,6 @@ export const HomeCard = ({ asset }: HomeCardProps) => {
   useEffect(() => {
     if (isError && isBuying) {
       setIsBuying(false);
-      toast.error("Transaction failed. Please try again.");
     }
   }, [isError, isBuying]);
 
@@ -141,7 +138,6 @@ export const HomeCard = ({ asset }: HomeCardProps) => {
 
   const handleConfirmBuy = async () => {
     if (!asset.assetCid) {
-      toast.error("No asset CID available");
       return;
     }
 
@@ -153,11 +149,9 @@ export const HomeCard = ({ asset }: HomeCardProps) => {
         costInNativeInWei: costInWei.toString()
       });
       
-      toast.success("Asset purchase initiated! Please confirm the transaction in your wallet.");
       // Don't set isBuying to false here - let the useEffect handle it when transaction is confirmed
     } catch (error: any) {
       console.error('Error buying asset:', error);
-      toast.error(error.message || "Failed to purchase asset");
       setIsBuying(false);
     }
   };

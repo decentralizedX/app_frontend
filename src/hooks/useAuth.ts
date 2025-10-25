@@ -1,13 +1,17 @@
-import { useState, useEffect } from 'react';
-import { useAccount, useSignMessage, useChainId } from 'wagmi';
+import { useState, useEffect, useRef } from 'react';
+import { useAccount, useSignMessage, useChainId, useDisconnect } from 'wagmi';
 import { authService, type AuthState } from '@/services/authService';
-import { toast } from 'sonner';
 import { SiweMessage } from 'siwe';
+
+// Global flag to prevent multiple simultaneous authentication attempts across all hook instances
+let globalAuthInProgress = false;
+let globalHasAttempted = false;
 
 export const useAuth = () => {
   const { address, isConnected } = useAccount();
   const { signMessageAsync, isPending: isSigning } = useSignMessage();
   const chainId = useChainId();
+  const { disconnect } = useDisconnect();
   const [authState, setAuthState] = useState<AuthState>({
     isAuthenticated: false,
     token: null,
@@ -39,7 +43,54 @@ export const useAuth = () => {
       clearInterval(interval);
     };
   }, []);
-  // Auto-authentication removed - users must manually authenticate
+
+  // Auto-authenticate when wallet connects (using global flags to prevent multiple attempts)
+  useEffect(() => {
+    const autoAuthenticate = async () => {
+      // Prevent multiple simultaneous authentication attempts across ALL hook instances
+      if (globalAuthInProgress) {
+        console.log('⏸️ Authentication already in progress (global), skipping...');
+        return;
+      }
+
+      if (globalHasAttempted) {
+        console.log('⏸️ Authentication already attempted (global), skipping...');
+        return;
+      }
+
+      // Only auto-authenticate if:
+      // 1. Wallet is connected
+      // 2. User is not already authenticated
+      // 3. Not currently authenticating
+      // 4. Address exists
+      if (isConnected && address && !authState.isAuthenticated && !isAuthenticating) {
+        console.log('🔄 Auto-authenticating after wallet connection...');
+        globalHasAttempted = true; // Mark globally that we've attempted
+        globalAuthInProgress = true; // Mark globally that authentication is in progress
+        
+        const success = await authenticate();
+        
+        globalAuthInProgress = false; // Mark globally that authentication is complete
+        
+        // If authentication failed (user rejected), disconnect the wallet
+        if (!success) {
+          console.log('❌ Authentication failed, disconnecting wallet...');
+          disconnect();
+          globalHasAttempted = false; // Reset globally for next connection
+        }
+      }
+    };
+
+    autoAuthenticate();
+  }, [isConnected, address]); // Only trigger when wallet connects or address changes
+
+  // Reset global auth flags when wallet disconnects
+  useEffect(() => {
+    if (!isConnected) {
+      globalHasAttempted = false;
+      globalAuthInProgress = false;
+    }
+  }, [isConnected]);
 
   // Logout when wallet disconnects
   useEffect(() => {
@@ -49,10 +100,6 @@ export const useAuth = () => {
         isAuthenticated: false,
         token: null,
         address: null,
-      });
-      
-      toast.info("You have been logged out due to wallet disconnection.", {
-        description: "Logged Out"
       });
     }
   }, [isConnected, authState.isAuthenticated]);
@@ -69,20 +116,36 @@ export const useAuth = () => {
           token: null,
           address: null,
         });
-        
-        toast.warning("You have been logged out because your wallet address changed.", {
-          description: "Wallet Address Changed"
-        });
       }
     }
   }, [address, isConnected, authState.isAuthenticated, authState.address]);
 
+  // Monitor token expiration and re-authenticate if wallet is still connected
+  useEffect(() => {
+    const checkTokenExpiration = async () => {
+      // If wallet is connected but token expired/not authenticated, trigger re-authentication
+      if (isConnected && address && !authState.isAuthenticated && !globalAuthInProgress && !isAuthenticating) {
+        console.log('🔄 Token expired, re-authenticating...');
+        globalAuthInProgress = true;
+        
+        const success = await authenticate();
+        
+        globalAuthInProgress = false;
+        
+        // If authentication failed (user rejected), disconnect the wallet
+        if (!success) {
+          console.log('❌ Re-authentication failed, disconnecting wallet...');
+          disconnect();
+        }
+      }
+    };
+
+    checkTokenExpiration();
+  }, [authState.isAuthenticated, isConnected, address, isAuthenticating]);
+
   // Manual authentication function
-  const authenticate = async (): Promise<boolean> => {
+  const authenticate = async (isManual: boolean = false): Promise<boolean> => {
     if (!isConnected || !address) {
-      toast.error("Please connect your wallet first.", {
-        description: "Wallet Required"
-      });
       return false;
     }
 
@@ -94,10 +157,6 @@ export const useAuth = () => {
     try {
       // Try to get account info to check if wallet is accessible
     } catch (error) {
-      toast.error("Your MetaMask wallet appears to be locked. Please unlock it and try again.", {
-        description: "Wallet Not Accessible",
-        duration: 6000,
-      });
       return false;
     }
 
@@ -126,21 +185,11 @@ export const useAuth = () => {
       // Generate the properly formatted message string
       const message = siweMessage.prepareMessage();
       
-       // Create a timeout promise to handle locked/unresponsive wallets
-       const timeoutPromise = new Promise<never>((_, reject) => {
-         setTimeout(() => {
-           reject(new Error('Wallet is locked or unresponsive. Please unlock your wallet and try again.'));
-         }, 15000); // 15 second timeout
-       });
-      
-      // Race between signature and timeout
-      const signature = await Promise.race([
-        signMessageAsync({ 
-          message,
-          account: address as `0x${string}`
-        }),
-        timeoutPromise
-      ]);
+      // Request signature from wallet
+      const signature = await signMessageAsync({ 
+        message,
+        account: address as `0x${string}`
+      });
       
       if (!signature) {
         throw new Error('User cancelled signature or signature failed');
@@ -155,43 +204,10 @@ export const useAuth = () => {
       const newState = authService.getAuthState();
       setAuthState(newState);
       
-      toast.success("You are now logged in with your wallet.", {
-        description: "Authentication Successful"
-      });
-      
       return true;
     } catch (error: any) {
       console.error('Authentication failed:', error);
       
-      // Provide more specific error messages and toast notifications
-      let errorMessage = "Failed to authenticate with wallet.";
-      let toastTitle = "Authentication Failed";
-      let toastDuration = 5000;
-      
-      if (error.message) {
-        if (error.message.includes('locked') || error.message.includes('unresponsive')) {
-          errorMessage = "Wallet is locked or unresponsive. Please unlock your wallet and try again.";
-          toastTitle = "Wallet Locked";
-          toastDuration = 8000; // Show longer for wallet errors
-        } else if (error.message.includes('cancelled') || error.message.includes('rejected')) {
-          errorMessage = "Signature request was cancelled or rejected. Please try again.";
-          toastTitle = "Signature Cancelled";
-        } else if (error.message.includes('User rejected')) {
-          errorMessage = "You rejected the signature request. Please try again.";
-          toastTitle = "Signature Rejected";
-        } else if (error.message.includes('timeout')) {
-          errorMessage = "Request timed out. Please check your wallet and try again.";
-          toastTitle = "Request Timeout";
-          toastDuration = 6000;
-        } else {
-          errorMessage = error.message;
-        }
-      }
-      
-      toast.error(errorMessage, {
-        description: toastTitle,
-        duration: toastDuration,
-      });
       return false;
     } finally {
       setIsAuthenticating(false);
@@ -206,10 +222,6 @@ export const useAuth = () => {
       token: null,
       address: null,
     });
-    
-    toast.info("You have been successfully logged out.", {
-      description: "Logged Out"
-    });
   };
 
   // Check if current wallet address matches authenticated address
@@ -219,27 +231,18 @@ export const useAuth = () => {
   };
 
   return {
-    // Auth state
+    // Auth state (simplified: connected = authenticated)
     isAuthenticated: authState.isAuthenticated,
     authToken: authState.token,
     authAddress: authState.address,
-    isAuthenticating: isAuthenticating, // Only use our own state, not wagmi's isSigning
+    isAuthenticating: isAuthenticating,
     
     // Wallet state
     walletAddress: address,
     isWalletConnected: isConnected,
-    isCorrectWallet: isCorrectWallet(),
     
     // Actions
     authenticate,
     logout,
-    
-    // Helper to ensure authentication before API calls
-    ensureAuthenticated: async (): Promise<boolean> => {
-      if (authState.isAuthenticated && isCorrectWallet()) {
-        return true;
-      }
-      return await authenticate();
-    }
   };
 };

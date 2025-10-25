@@ -257,7 +257,7 @@ export const MePage = () => {
       if (isAllAssetLoading) {
         return (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
               <HomeCardSkeleton key={i} />
             ))}
           </div>
@@ -318,7 +318,7 @@ export const MePage = () => {
       if (isAllUserAssetLoading) {
         return (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
               <HomeCardSkeleton key={i} />
             ))}
           </div>
@@ -381,7 +381,7 @@ export const MePage = () => {
       if (isSavedPostsLoading || isLoggingOut) {
         return (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => (
               <SavedPostCardSkeleton key={i} />
             ))}
           </div>

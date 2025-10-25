@@ -58,7 +58,7 @@ const EditorPage = () => {
 	const { cid } = useParams();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { ensureAuthenticated, isAuthenticated } = useAuth();
+	const { isAuthenticated } = useAuth();
 	const { setEditorProps } = useEditor();
 	const { addAsset, isPending: isContractPending, isConfirming: isContractConfirming, isConfirmed: isContractConfirmed, isError: isContractError, hash: txHash } = useAddAsset();
 
@@ -143,16 +143,7 @@ const EditorPage = () => {
 			return false;
 		}
 
-		const authenticated = await ensureAuthenticated();
-		if (!authenticated) {
-			toast({
-				title: "Authentication Required",
-				description: "Please authenticate with your wallet to save content.",
-				variant: "destructive"
-			});
-			return false;
-		}
-
+		// Since wallet connected = authenticated, no need for separate check
 		setIsSaving(true);
 		try {
 			// Get the latest data from the editor before saving
@@ -212,7 +203,7 @@ const EditorPage = () => {
 		} finally {
 			setIsSaving(false);
 		}
-	}, [address, signMessageAsync, ensureAuthenticated, cid, data, documentTitle, toast, navigate]);
+	}, [address, signMessageAsync, cid, data, documentTitle, toast, navigate]);
 
 	// Track changes when data updates
 	useEffect(() => {
@@ -405,16 +396,7 @@ const EditorPage = () => {
 			return false;
 		}
 
-		// Ensure user is authenticated before publishing
-		const authenticated = await ensureAuthenticated();
-		if (!authenticated) {
-			toast({
-				title: "Authentication Required",
-				description: "Please authenticate with your wallet to publish content.",
-				variant: "destructive"
-			});
-			return false;
-		}
+		// Since wallet connected = authenticated, no need for separate check
 
 		// Reset state and show progress modal
 		setIsPublishing(true);
@@ -482,7 +464,7 @@ const EditorPage = () => {
 			setIsPublishing(false);
 			return false;
 		}
-	}, [address, ensureAuthenticated, cid, documentTitle, addAsset, signMessageAsync, toast]);
+	}, [address, cid, documentTitle, addAsset, signMessageAsync, toast]);
 
 	// Simple publish without overlay (no thumbnail/price/description) - kept for backward compatibility
 	const publishToAPI = useCallback(async () => {

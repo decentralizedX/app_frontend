@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { CustomConnectButton } from './ConnectButton';
 import PublishOverlay from './PublishOverlay';
-import { User, CheckCircle, Loader2, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { useMemo } from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { useAccount } from "wagmi";
 import { useAuth } from "@/hooks/useAuth";
-import { cn } from "@/lib/utils";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEditor } from "@/context/EditorContext";
 import { PublishData } from './PublishOverlay';
@@ -23,7 +22,7 @@ interface TopHeaderProps {
 const TopHeader = ({ onMenuClick }: TopHeaderProps) => {
   const { theme } = useTheme();
   const { address, isConnected } = useAccount();
-  const { isAuthenticated, authenticate, logout, isAuthenticating } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -144,52 +143,8 @@ const TopHeader = ({ onMenuClick }: TopHeaderProps) => {
 
               {/* Connect wallet */}
               <div className="relative">
-                <CustomConnectButton isEditorPage={isEditorPage} />
+                <CustomConnectButton isEditorPage={false} />
               </div>
-
-              {/* Vertical separator and Sign In button (hidden on editor page) */}
-              {!isEditorPage && (
-                <>
-                  {/* Vertical separator */}
-                  <div className="h-8 w-px bg-gray-100 dark:bg-gray-900"></div>
-
-                  {/* Sign In/Out Button */}
-                  <button
-                onClick={async () => {
-                  if (userState === 'connected') {
-                    await authenticate();
-                  } else if (userState === 'authenticated') {
-                    logout();
-                  }
-                }}
-                disabled={userState === 'disconnected' || isAuthenticating}
-                title={isAuthenticating ? "Please check your wallet and sign the message" : userState === 'authenticated' ? "Sign out of your account" : "Sign in with your wallet"}
-                className={cn(
-                  "flex items-center gap-2 px-3 py-2 border shadow-md transition-all duration-200 transform",
-                  "rounded-l-none rounded-r-lg border-l-0",
-                  userState === 'disconnected' || isAuthenticating
-                    ? theme === "dark"
-                      ? "bg-white text-black cursor-not-allowed opacity-80"
-                      : "bg-black text-white cursor-not-allowed opacity-80"
-                    : theme === "dark"
-                      ? "bg-white text-black border-gray-300 hover:bg-gray-100"
-                      : "bg-black text-white border-gray-800 hover:bg-gray-900",
-                  "hover:scale-105 focus:outline-none disabled:hover:scale-100"
-                )}
-              >
-                {isAuthenticating ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : userState === 'authenticated' ? (
-                  <CheckCircle className="w-5 h-5" />
-                ) : (
-                  <User className="w-5 h-5" />
-                )}
-                <span className="hidden lg:inline">
-                  {isAuthenticating ? 'Waiting for wallet...' : userState === 'authenticated' ? 'Sign Out' : 'Sign In'}
-                </span>
-              </button>
-                </>
-              )}
             </div>
           </div>
         </div>
